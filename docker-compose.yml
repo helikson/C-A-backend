@@ -1,0 +1,23 @@
+services:
+  oracle:
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    volumes:
+      - oracle_db:/opt/oracle/oradata # persistent oracle database data.
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    environment:
+      - ORACLE_PWD=passwd
+    command: >
+      sh -c "/opt/oracle/setPassword.sh $$ORACLE_PWD && /opt/oracle/runOracle.sh"
+volumes:
+  oracle_db:
+
+# https://localhost:5500/em
+# system
+# passwd
+
+# ALTER SESSION SET "_ORACLE_SCRIPT"=true;
+# CREATE USER develop IDENTIFIED BY passwd;
+# GRANT CONNECT, RESOURCE TO develop;
+# ALTER USER develop QUOTA UNLIMITED ON USERS;
